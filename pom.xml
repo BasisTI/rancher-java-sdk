@@ -14,12 +14,19 @@
     <developer>
       <id>cedric-lamalle</id>
       <name>Cédric Lamalle</name>
-      <email>cedric.lamalle@basis.com.br<email>
+      <email>cedric.lamalle@basis.com.br</email>
       <url>http://www.example.com/jdoe</url>
       <roles>
         <role>architect</role>
         <role>developer</role>
       </roles>
+      <timezone>America/Sao_Paulo</timezone>
+    </developer>
+    <developer>
+      <id>gabrielfeitosa</id>
+      <name>Gabriel Feitosa</name>
+      <email>gabriel.feitosa@basis.com.br</email>
+      <url>http://www.basis.com.br</url>
       <timezone>America/Sao_Paulo</timezone>
     </developer>
   </developers>

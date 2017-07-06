@@ -8,4 +8,27 @@ It was originally derived from the [Go-Rancher](https://github.com/rancher/go-ra
 
 There services definitions are built using Square's [Retrofit2](http://square.github.io/retrofit/) library.
 
+Rancher API version: v2-beta
+
 Please see: https://github.com/objectpartners/rancher-java-sdk
+
+## Example
+
+That entry point for this library is the `io.rancher.Rancher` class.
+You must first create an API key in your Rancher installation for this library to use.
+
+First, initialize your Rancher client:
+
+```java
+Rancher.Config config = new Rancher.Config(new URL("https://rancher.mydomain.com"), "MyAPIAccessKey", "MyAPISecretKey");
+Rancher rancher = new Rancher(config);
+```
+
+Once the client is created, you can interact with Rancher by having the client generate a proxy for one of the service
+interfaces for you.
+
+```java
+StackService stackService = rancher.type(StackService.class);
+Response<io.rancher.base.TypeCollection<Stack>> execute = stackService.list().execute();
+List<Stack> stacks = execute.body().getData();
+```
