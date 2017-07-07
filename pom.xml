@@ -5,7 +5,7 @@
 
     <groupId>br.com.basis</groupId>
     <artifactId>rancher-java-sdk</artifactId>
-    <version>1.0.0-RC1</version>
+    <version>1.0.0-RC2</version>
     <name>Rancher Java SDK</name>
     <inceptionYear>2017</inceptionYear>
     <description>SDK for interacting with Rancher Server using Java</description>
@@ -90,6 +90,18 @@
                                 </requireReleaseDeps>
                             </rules>
                         </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
                     </execution>
                 </executions>
             </plugin>
