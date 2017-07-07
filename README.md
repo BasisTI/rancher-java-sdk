@@ -12,6 +12,16 @@ Rancher API version: v2-beta
 
 Please see: https://github.com/objectpartners/rancher-java-sdk
 
+## Maven Dependency
+
+```xml
+<dependency>
+  <groupId>br.com.basis</groupId>
+  <artifactId>rancher-java-sdk</artifactId>
+  <version>VERSION</version>
+</dependency>
+```
+
 ## Example
 
 That entry point for this library is the `io.rancher.Rancher` class.
