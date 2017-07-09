@@ -4,7 +4,7 @@
 
     <groupId>br.com.basis</groupId>
     <artifactId>rancher-java-sdk</artifactId>
-    <version>1.0.0-RC2</version>
+    <version>1.0.0-RC3</version>
     <name>Rancher Java SDK</name>
     <inceptionYear>2017</inceptionYear>
     <description>SDK for interacting with Rancher Server using Java</description>
