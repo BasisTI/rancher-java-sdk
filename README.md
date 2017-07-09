@@ -38,3 +38,30 @@ StackService stackService = rancher.type(StackService.class);
 Response<io.rancher.base.TypeCollection<Stack>> execute = stackService.list().execute();
 List<Stack> stacks = execute.body().getData();
 ```
+
+# Releasing rancher-java-sdk to Maven Central
+
+In order to release rancher-java-sdk to Maven Central, sources and javadoc jars should be generated, and all jars have to be signed with PGP. If you don't have a PGP key, you can install GPG and generate a new key, see: <http://central.sonatype.org/pages/working-with-pgp-signatures.html> for instance.
+
+Before releasing the git repository should be tagged and the tag should be signed using the same PGP key that will be used during the relase. For instance you can use:
+
+```sh
+git tag -a -m 'Publishing version 1.0.0-RC3' -s 1.0.0-RC3
+```
+
+And if you have more than one PGP key:
+
+```sh
+git tag -a -m 'Publishing version 1.0.0-RC3' -s -u F680B22C  1.0.0-RC3
+```
+
+In order to help with the release process a _release_ profile has been added to the project pom.xml automating the generation and signing of all jars. To deploy just run:
+
+```sh
+mvn clean deploy -P release
+```
+Note that if you have more than one key you can use the _gpg.keyname_ option:
+
+```sh
+mvn clean deploy -Dgpg.keyname=F680B22C -P release
+```
