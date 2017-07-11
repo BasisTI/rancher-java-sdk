@@ -31,9 +31,12 @@ public class Rancher {
                 .addInterceptor(
                         BasicAuthInterceptor.auth(config.getAccessKey(), config.getSecretKey())
                 )
-                .addInterceptor((chain) -> {
-                    Request request = chain.request().newBuilder().addHeader("Accept", "application/json").build();
-                    return chain.proceed(request);
+                .addInterceptor(new Interceptor() {
+                    @Override
+                    public Response intercept(Chain chain) throws IOException {
+                        Request request = chain.request().newBuilder().addHeader("Accept", "application/json").build();
+                        return chain.proceed(request);
+                    }
                 });
 
         this.retrofit = new Retrofit.Builder()
