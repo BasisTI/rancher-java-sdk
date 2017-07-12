@@ -12,14 +12,16 @@ import retrofit2.Retrofit;
 import retrofit2.converter.jackson.JacksonConverterFactory;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.net.URL;
 
 /**
  * The type Rancher.
  */
-public class Rancher {
+public class Rancher implements Serializable {
 
-    private final Retrofit retrofit;
+    private transient Retrofit retrofit;
+    private final Config config;
 
     /**
      * Instantiates a new Rancher.
@@ -27,24 +29,7 @@ public class Rancher {
      * @param config the config
      */
     public Rancher(final Config config) {
-        OkHttpClient.Builder builder = new OkHttpClient.Builder()
-                .addInterceptor(
-                        BasicAuthInterceptor.auth(config.getAccessKey(), config.getSecretKey())
-                )
-                .addInterceptor(new Interceptor() {
-                    @Override
-                    public Response intercept(Chain chain) throws IOException {
-                        Request request = chain.request().newBuilder().addHeader("Accept", "application/json").build();
-                        return chain.proceed(request);
-                    }
-                });
-
-        this.retrofit = new Retrofit.Builder()
-                .baseUrl(config.getUrl().toString())
-                .client(builder.build())
-                .addConverterFactory(JacksonConverterFactory.create(configureObjectMapper()))
-                .build();
-
+        this.config = config;
     }
 
     private ObjectMapper configureObjectMapper() {
@@ -62,13 +47,35 @@ public class Rancher {
      * @return the t
      */
     public <T> T type(Class<T> service) {
-        return retrofit.create(service);
+        return getRetrofit().create(service);
+    }
+
+    private Retrofit getRetrofit() {
+        if (this.retrofit == null) {
+            OkHttpClient.Builder builder = new OkHttpClient.Builder()
+                .addInterceptor(
+                    BasicAuthInterceptor.auth(config.getAccessKey(), config.getSecretKey())
+                )
+                .addInterceptor(new Interceptor() {
+                    @Override
+                    public Response intercept(Chain chain) throws IOException {
+                        Request request = chain.request().newBuilder().addHeader("Accept", "application/json").build();
+                        return chain.proceed(request);
+                    }
+                });
+            this.retrofit = new Retrofit.Builder()
+                .baseUrl(this.config.getUrl().toString())
+                .client(builder.build())
+                .addConverterFactory(JacksonConverterFactory.create(configureObjectMapper()))
+                .build();
+        }
+        return this.retrofit;
     }
 
     /**
      * The type Config.
      */
-    public static class Config {
+    public static class Config implements Serializable{
 
         private URL url;
         private String accessKey;
